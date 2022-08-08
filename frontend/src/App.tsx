@@ -35,7 +35,7 @@ function App() {
 
   const getLocationBackColor = () => {
     if (locationInfomation === null) {
-      return 'white';
+      return '#FCE2DB';
     } else {
       // set object variables to repersent each continent color
       const continentColor = {
@@ -52,7 +52,7 @@ function App() {
 
       if (continentName === "Africa") {
         return "red";
-      } else if (continentName === "Asiz") {
+      } else if (continentName === "Asia") {
         return "yellow";
       } else if (continentName === "Europe") {
         return "blue";
@@ -63,7 +63,7 @@ function App() {
       } else if (continentName === "South America") {
         return "orange";
       } else {
-        return "white";
+        return "#FCE2DB";
       }
     }
   }
@@ -71,7 +71,7 @@ function App() {
   return (
     <div>
       <div className='searchPart'>
-        <h1>Search Ip Location</h1>
+        <h1>IP Location Search</h1>
         <div className="searchInputPart">
           <TextField 
           id="searchIp"
@@ -93,12 +93,23 @@ function App() {
           <Paper sx={{backgroundColor: getLocationBackColor()}}>
             <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: 1}}>
               {
-                locationInfomation.city === "-" ? (
-                  <h2>Location information not found</h2>
+                locationInfomation === null ? (
+                  <h2>Please input correct Ip address</h2>
                 ) :
                 (
-                  // loop through the locationInfomation object and display each key and value
-                  <h2>{locationInfomation.city}</h2>  
+                  locationInfomation.city === "-" ? (
+                    <h2>Location information not found</h2>
+                  ): (
+                    <div>
+                      <h2>{locationInfomation.city}</h2>
+                      <p>
+                        Country name: {locationInfomation.country_name} <br></br> 
+                        Continent name: {locationInfomation.continent_name} <br></br>
+                        Latitude: {locationInfomation.latitude} <br></br>
+                        Longitude: {locationInfomation.longitude} <br></br>
+                      </p>  
+                    </div>
+                  )
                 )
               }
             </Box>
