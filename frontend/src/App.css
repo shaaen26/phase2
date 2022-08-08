@@ -10,3 +10,11 @@
 .searchIcon {
   fill: blue;
 }
+
+.locationPart {
+  display: flex;
+  justify-content: center;
+  background-color: #7A4495;
+  max-width: 800px;
+  margin: 100px;
+}
