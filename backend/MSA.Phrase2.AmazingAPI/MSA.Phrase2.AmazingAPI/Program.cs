@@ -1,4 +1,6 @@
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using System.Net.Http.Headers;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +22,18 @@ builder.Services.AddSwaggerGen(options =>
     // using System.Reflection;
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
+
+// add two http clients
+builder.Services.AddHttpClient("CatImages", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("https://api.thecatapi.com");
+
+});
+
+builder.Services.AddHttpClient("DogImages", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("https://dog.ceo");
 });
 
 
