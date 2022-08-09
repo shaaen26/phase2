@@ -9,9 +9,11 @@ namespace MSA.Phrase2.AmazingAPI.Controllers
     [Route("[controller]")]
     public class PetController : ControllerBase
     {
+        private readonly PetServiceInterface _petService;
 
-        public PetController()
+        public PetController(PetServiceInterface petService)
         {
+            _petService = petService;
         }
 
         /// <summary>
@@ -21,7 +23,7 @@ namespace MSA.Phrase2.AmazingAPI.Controllers
         [HttpGet]
         public ActionResult<List<Pet>> GetAll()
         {
-            return PetService.GetAllPets();
+            return _petService.GetAllPets();
         }
         
         /// <summary>
@@ -32,7 +34,7 @@ namespace MSA.Phrase2.AmazingAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
-            var Pet = PetService.GetPet(id);
+            var Pet = _petService.GetPet(id);
 
             if(Pet is null) { 
                 return NotFound();
@@ -49,7 +51,7 @@ namespace MSA.Phrase2.AmazingAPI.Controllers
         [HttpPost]
         public IActionResult AddPet(Pet pet)
         {
-            PetService.AddNewPet(pet);
+            _petService.AddNewPet(pet);
             return CreatedAtAction(nameof(AddPet), new {id=pet.Id}, pet);
         }
 
@@ -67,13 +69,13 @@ namespace MSA.Phrase2.AmazingAPI.Controllers
                 return BadRequest();
             }
 
-            var currentPet = PetService.GetPet(id);
+            var currentPet = _petService.GetPet(id);
             if (currentPet is null)
             {
                 return NotFound();
             }
 
-            PetService.UpdatePet(pet);
+            _petService.UpdatePet(pet);
             return NoContent();
         }
 
@@ -85,14 +87,14 @@ namespace MSA.Phrase2.AmazingAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeletePet(int id)
         {
-            var currentPet = PetService.GetPet(id);
+            var currentPet = _petService.GetPet(id);
 
             if (currentPet is null)
             {
                 return NotFound();
             }
 
-            PetService.DeletePet(id);
+            _petService.DeletePet(id);
             return NoContent();
         }
     }   

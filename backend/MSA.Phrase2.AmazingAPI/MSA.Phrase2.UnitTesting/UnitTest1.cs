@@ -1,3 +1,6 @@
+using MSA.Phrase2.AmazingAPI.Services;
+using MSA.Phrase2.AmazingAPI.Models;
+
 namespace MSA.Phrase2.UnitTesting
 {
     public class Tests
@@ -5,12 +8,13 @@ namespace MSA.Phrase2.UnitTesting
         [SetUp]
         public void Setup()
         {
+            
         }
 
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            
         }
     }
 }

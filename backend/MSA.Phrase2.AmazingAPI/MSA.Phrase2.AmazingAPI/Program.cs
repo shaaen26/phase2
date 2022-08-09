@@ -1,6 +1,6 @@
-using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
-using System.Net.Http.Headers;
+using MSA.Phrase2.AmazingAPI.Data;
+using MSA.Phrase2.AmazingAPI.Services;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +38,9 @@ builder.Services.AddHttpClient("DogImages", httpClient =>
 
 
 
+//Register the PetContext with ASP.NET core's dependency injection
+builder.Services.AddSqlite<PetContext>("Data Source=Pets.db");
+builder.Services.AddScoped<PetServiceInterface,PetServiceDb>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
