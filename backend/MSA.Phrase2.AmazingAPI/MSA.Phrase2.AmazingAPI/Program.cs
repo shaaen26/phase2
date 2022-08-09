@@ -1,9 +1,11 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using MSA.Phrase2.AmazingAPI.Data;
 using MSA.Phrase2.AmazingAPI.Services;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -24,23 +26,34 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+// read configuration file
+ConfigurationManager configuration = builder.Configuration;
+
+
 // add two http clients
-builder.Services.AddHttpClient("CatImages", httpClient =>
+builder.Services.AddHttpClient(configuration.GetValue<String>("CatClientName"), httpClient =>
 {
-    httpClient.BaseAddress = new Uri("https://api.thecatapi.com");
+    httpClient.BaseAddress = new Uri(configuration.GetValue<String>("CatApiAddress"));
 
 });
 
-builder.Services.AddHttpClient("DogImages", httpClient =>
+builder.Services.AddHttpClient(configuration.GetValue<String>("DogClientName"), httpClient =>
 {
-    httpClient.BaseAddress = new Uri("https://dog.ceo");
+    httpClient.BaseAddress = new Uri(configuration.GetValue<String>("DogApiAddress"));
 });
 
 
+if(configuration.GetValue<String>("PetService").Equals("DB"))
+{
+    //Register the PetContext with ASP.NET core's dependency injection
+    builder.Services.AddSqlite<PetContext>("Data Source=Pets.db");
+    builder.Services.AddScoped<PetServiceInterface,PetServiceDb>();
+} else
+{
+    builder.Services.AddScoped<PetServiceInterface, PetServiceInMemory>();
+}
 
-//Register the PetContext with ASP.NET core's dependency injection
-builder.Services.AddSqlite<PetContext>("Data Source=Pets.db");
-builder.Services.AddScoped<PetServiceInterface,PetServiceDb>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
