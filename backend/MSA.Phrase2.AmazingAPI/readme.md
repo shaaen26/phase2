@@ -12,4 +12,4 @@ In program.cs file, multiple middlewares are injected into service container lik
 
 ### Section Three Illustration
 
-As mentioned above, the controller doesn't focus on the actual implementation of the service and by using a mock library like NSubstitute we can mock such a service and inject the service into the controller to test its functionality of the controller. In his way, we don't need to care about the correctness of the service since we can define its behaviors by using some methods in the NSubstitue and what we focus on is only the correctness of controller logic. 
+As mentioned above, the controller doesn't focus on the actual implementation of the service and by using a mock library like NSubstitute we can mock such a service and inject the service into the controller to test its functionality of the controller. In this way, we don't need to care about the correctness of the service since we can define its behaviors by using some methods in the NSubstitue and what we focus on is only the correctness of controller logic. 
